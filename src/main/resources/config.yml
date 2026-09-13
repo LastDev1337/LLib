@@ -1,0 +1,8 @@
+# Available colors:
+# LEGACY          - "&c&lExample &9Text"
+# HEX             - "&#FF0000Example &#99FF99Text"
+# MINI_MESSAGE    - "<bold><red>Example</red> <blue>Text</blue></bold>"
+# GSON            - "[{"text":"Example","bold":true,"color":"red"},{"text":" Text","color":"blue"}]"
+# ALL             - LEGACY, HEX, MINI_MESSAGE but not GSON
+color:
+  type: ALL

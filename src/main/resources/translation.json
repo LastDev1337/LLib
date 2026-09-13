@@ -1,0 +1,98 @@
+{
+  "use-locale": "auto",
+  "default-locale": "ru_RU",
+  "messages": {
+    "unsupported-version": {
+      "ru_RU": "Версия сервера не поддерживается: {}",
+      "en_US": "Server version is not supported: {}"
+    },
+    "detect-version": {
+      "ru_RU": "Обнаруженная версия сервера: {}",
+      "en_US": "Detected server version: {}"
+    },
+    "unexpected-character": {
+      "ru_RU": "Неожиданный символ: {}",
+      "en_US": "Unexpected character: {}"
+    },
+    "unexpected-token": {
+      "ru_RU": "Неожиданный токен: {}",
+      "en_US": "Unexpected token: {}"
+    },
+    "expected": {
+      "ru_RU": "Ожидается '{}'",
+      "en_US": "Expected '{}'"
+    },
+    "too-many-arguments": {
+      "ru_RU": "Нет подкоманды, которая принимает такое количество аргументов: {}",
+      "en_US": "There is no subcommand that accepts this many arguments: {}"
+    },
+    "number-too-big": {
+      "ru_RU": "{} должно быть больше чем {}",
+      "en_US": "{} should be greater than {}"
+    },
+    "number-too-small": {
+      "ru_RU": "{} должно быть меньше чем {}",
+      "en_US": "{} should be less than {}"
+    },
+    "nan": {
+      "ru_RU": "{} должно быть числом!",
+      "en_US": "{} should be a number!"
+    },
+    "unknown-player": {
+      "ru_RU": "'{}' - неизвестный игрок!",
+      "en_US": "'{}' - unknown player!"
+    },
+    "constant-not-found-more": {
+      "ru_RU": "'{}' - недопустимая опция! Все возможные значения для {}: {} и другие...",
+      "en_US": "'{}' - invalid option! All possible values for {}: {}, and others..."
+    },
+    "constant-not-found": {
+      "ru_RU": "'{}' - недопустимая опция! Все возможные значения: {}:",
+      "en_US": "'{}' - invalid option! All possible values: {}:"
+    },
+    "invalid-characters": {
+      "ru_RU": "Недопустимые символы: {}",
+      "en_US": "Invalid characters: {}"
+    },
+    "missing-argument": {
+      "ru_RU": "Отсутствует аргумент '{}'",
+      "en_US": "Missing argument '{}'"
+    },
+    "reload": {
+      "ru_RU": "Плагин успешно перезагружен! <gray>({}ms)</gray>",
+      "en_US": "Plugin successfully reloaded! <gray>({}ms)</gray>"
+    },
+    "end-of-command": {
+      "ru_RU": "Команда заканчивается здесь",
+      "en_US": "The command ends here"
+    },
+    "should-start-with": {
+      "ru_RU": "Должно начинаться с {}",
+      "en_US": "Should start with {}"
+    },
+    "worldedit-failed-complete": {
+      "ru_RU": "&cЗавершено с ошибкой",
+      "en_US": "&cCompleted with an error"
+    },
+    "worldedit-select-region": {
+      "ru_RU": "Сначала выбери область!",
+      "en_US": "Please select a region first!"
+    },
+    "no-player": {
+      "ru_RU": "&cВы должны указать игрока!",
+      "en_US": "&cYou must specify the player!"
+    },
+    "no-permission": {
+      "ru_RU": "&cУ вас нет прав на использование этой команды!",
+      "en_US": "&cYou don't have permission to use this command!"
+    },
+    "internal-error": {
+      "ru_RU": "&cПроизошла внутренняя ошибка при выполнении команды.",
+      "en_US": "&cAn internal error occurred while executing the command."
+    },
+    "expected-2": {
+      "ru_RU": "Ожидалось '{}' или '{}'",
+      "en_US": "Expected '{}' or '{}'"
+    }
+  }
+}

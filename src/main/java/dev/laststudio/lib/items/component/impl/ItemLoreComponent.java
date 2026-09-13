@@ -1,0 +1,57 @@
+package dev.laststudio.lib.items.component.impl;
+
+import dev.laststudio.lib.items.component.MergeableComponent;
+import dev.laststudio.lib.items.util.SourcedComponent;
+import dev.by1337.yaml.codec.YamlCodec;
+import net.kyori.adventure.text.ComponentLike;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
+
+public class ItemLoreComponent implements MergeableComponent<ItemLoreComponent> {
+    public static YamlCodec<ItemLoreComponent> CODEC = SourcedComponent.CODEC
+            .listOf()
+            .map(ItemLoreComponent::new, ItemLoreComponent::lore);
+
+    private final List<ComponentLike> lore;
+    private final boolean hasPlaceholders;
+
+    public ItemLoreComponent(List<ComponentLike> lore) {
+        this.lore = lore;
+        boolean mutable = false;
+        for (ComponentLike like : lore) {
+            if (like instanceof SourcedComponent s && hasPlaceholdersOrLang(s.source())) {
+                mutable = true;
+                break;
+            }
+        }
+        this.hasPlaceholders = mutable;
+    }
+
+    public void forEachLore(Consumer<ComponentLike> consumer) {
+        for (ComponentLike componentLike : lore) {
+            consumer.accept(componentLike);
+        }
+    }
+
+    public List<ComponentLike> lore() {
+        return lore;
+    }
+
+    public boolean hasPlaceholdersOrLang() {
+        return hasPlaceholders;
+    }
+
+    private static boolean hasPlaceholdersOrLang(String input) {
+        return input.contains("{") || input.contains("%") || input.contains("<lang");
+    }
+
+
+    @Override
+    public ItemLoreComponent and(ItemLoreComponent t1) {
+        List<ComponentLike> list = new ArrayList<>(lore);
+        list.addAll(t1.lore);
+        return new ItemLoreComponent(list);
+    }
+}

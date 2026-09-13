@@ -1,0 +1,16 @@
+name: LLib
+version: '${version}'
+
+main: dev.laststudio.lib.plugin.LLibPlugin
+api-version: '1.21'
+load: POSTWORLD
+
+softdepend: [ BLib ]
+
+author: Last
+description: 'Библиотека для плагинов от LastStudio'
+website: https://laststudio.space
+
+permissions:
+  llib.reload:
+    default: op
