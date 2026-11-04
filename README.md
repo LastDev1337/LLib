@@ -155,7 +155,7 @@ LLib **не вшивается** в ваш jar — это отдельный п�
 ## Подключение к проекту
 
 Репозиторий: `https://repo.laststudio.space/releases`
-Пакет: `dev.laststudio.lib:llib:0.2`
+Пакет: `dev.laststudio.lib:llib:{VERSION}`
 
 ### Maven
 
@@ -171,7 +171,7 @@ LLib **не вшивается** в ваш jar — это отдельный п�
     <dependency>
         <groupId>dev.laststudio.lib</groupId>
         <artifactId>llib</artifactId>
-        <version>0.2</version>
+        <version>{VERSION}</version>
         <scope>provided</scope>
     </dependency>
 </dependencies>
@@ -186,7 +186,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly 'dev.laststudio.lib:llib:0.2'
+    compileOnly 'dev.laststudio.lib:llib:{VERSION}'
 }
 ```
 
@@ -199,7 +199,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly("dev.laststudio.lib:llib:0.2")
+    compileOnly("dev.laststudio.lib:llib:{VERSION}")
 }
 ```
 
