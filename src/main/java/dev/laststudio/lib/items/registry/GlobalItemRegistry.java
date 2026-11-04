@@ -16,6 +16,14 @@ public class GlobalItemRegistry {
         REGISTRIES.put(registry.space(), registry);
     }
 
+    public static void unregister(String space) {
+        REGISTRIES.remove(space);
+    }
+
+    public static void clear() {
+        REGISTRIES.clear();
+    }
+
     @Nullable
     public static <T extends ItemModelHolder> ItemRegistry<T> get(String space) {
         return (ItemRegistry<T>) REGISTRIES.get(space);

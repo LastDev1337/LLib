@@ -3,8 +3,9 @@ package dev.laststudio.lib.items.util;
 import org.bukkit.Bukkit;
 
 /**
- * The library targets 1.21 - 26.2. Only the 1.21.3 / 1.21.4 item-component splits
- * still need a runtime check; anything older is assumed present.
+ * The library targets 1.21 - 26.3 (26.x = year-based versions that follow 1.21.x).
+ * Only the 1.21.3 / 1.21.4 item-component splits need a runtime check;
+ * every 26.x server counts as newer than any 1.21.x patch.
  */
 public final class ItemVersion {
 

@@ -50,6 +50,8 @@ public class ItemComponents {
     public static final BaseComponent<Boolean> HIDE_TOOLTIP = register("hide_tooltip", YamlCodec.BOOL);
     public static final BaseComponent<Integer> MAX_STACK_SIZE = register("max_stack_size", YamlCodec.INT);
     public static final BaseComponent<Boolean> ENCHANTMENT_GLINT_OVERRIDE = register("enchantment_glint_override", YamlCodec.BOOL);
+    // Удобная секция скина головы: base64-значение, URL, ник (онлайн) или UUID.
+    public static final BaseComponent<String> TEXTURES = register("textures", YamlCodec.STRING);
 
     // 1.21.3+ only — null on older servers, callers must null-check.
     @Nullable
@@ -137,6 +139,7 @@ public class ItemComponents {
                 for (ProfileProperty property : profile.getProperties()) {
                     if (property.getName().equals("textures")) {
                         result.set(ItemComponents.MATERIAL, new MaterialComponent("basehead-" + property.getValue()));
+                        result.set(ItemComponents.TEXTURES, property.getValue());
                         break;
                     }
                 }

@@ -19,6 +19,6 @@ public record CustomModelDataComponent(List<Float> floats, List<Boolean> flags, 
     ).whenPrimitive(YamlCodec.FLOAT.map(
             //Deprecated 1.21.5
             i -> new CustomModelDataComponent(List.of(i), List.of(), List.of(), List.of()),
-            c -> c.floats.get(0)
+            c -> c.floats.isEmpty() ? 0f : c.floats.get(0)
     ));
 }

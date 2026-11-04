@@ -18,6 +18,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
 import dev.laststudio.lib.api.item.ItemDataService;
 import dev.laststudio.lib.api.item.ItemSnapshot;
+import dev.laststudio.lib.plugin.message.GlobalText;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -109,12 +110,12 @@ public final class ItemDataManager implements ItemDataService {
         }
         int amount = map.get("amount").asInt(1);
 
-        Component name = map.has("name") ? MINI.deserialize(map.get("name").asString("")) : null;
+        Component name = map.has("name") ? GlobalText.render(map.get("name").asString("")) : null;
 
         List<Component> lore = new ArrayList<>();
         Function<YamlValue, String> asString = v -> v.asString("");
         for (String line : map.get("lore").asList(asString, List.of())) {
-            lore.add(MINI.deserialize(line));
+            lore.add(GlobalText.render(line));
         }
 
         Map<Enchantment, Integer> enchantments = new HashMap<>();

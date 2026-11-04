@@ -6,3 +6,6 @@
 # ALL             - LEGACY, HEX, MINI_MESSAGE but not GSON
 color:
   type: ALL
+
+items:
+  enable: true

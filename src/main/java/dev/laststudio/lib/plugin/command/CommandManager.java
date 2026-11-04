@@ -54,17 +54,18 @@ public final class CommandManager implements CommandService {
 
     @Override
     public Requires<CommandSender> permission(String node) {
-        return sender -> {
-            if (sender.hasPermission(node)) {
-                return true;
-            }
-            messages.send(sender, locale.get(sender, "no-permission"));
-            return false;
-        };
+        // Только проверка. Сообщение отправляется один раз при выполнении
+        // (CommandBridge#onCommand), чтобы Tab-комплит не спамил no-permission.
+        return new PermissionRequires(node);
     }
 
     @Override
     public void register(JavaPlugin owner, Command<CommandSender> command) {
+        CommandMap map = commandMap();
+        clearStale(map, owner, command.name());
+        for (String alias : command.aliases()) {
+            clearStale(map, owner, alias);
+        }
         PluginCommand bukkitCommand = create(command.name(), owner);
         CommandBridge bridge = new CommandBridge(command, locale, messages, owner.getLogger());
         bukkitCommand.setExecutor(bridge);
@@ -72,9 +73,19 @@ public final class CommandManager implements CommandService {
         if (!command.aliases().isEmpty()) {
             bukkitCommand.setAliases(List.copyOf(command.aliases()));
         }
-        commandMap().register(owner.getName(), bukkitCommand);
+        map.register(owner.getName(), bukkitCommand);
         registered.put(command, bukkitCommand);
         syncCommands();
+    }
+
+    private static void clearStale(CommandMap map, JavaPlugin owner, String label) {
+        org.bukkit.command.Command existing = map.getCommand(label);
+        if (!(existing instanceof PluginCommand pluginCommand)) return;
+        if (!pluginCommand.getPlugin().getName().equalsIgnoreCase(owner.getName())) return;
+        existing.unregister(map);
+        if (map instanceof SimpleCommandMap simple) {
+            simple.getKnownCommands().values().removeIf(c -> c == existing);
+        }
     }
 
     @Override

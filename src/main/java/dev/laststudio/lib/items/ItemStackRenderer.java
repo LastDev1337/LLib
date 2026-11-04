@@ -1,5 +1,7 @@
 package dev.laststudio.lib.items;
 
+import com.destroystokyo.paper.profile.PlayerProfile;
+import com.destroystokyo.paper.profile.ProfileProperty;
 import dev.laststudio.lib.items.util.ItemVersion;
 import dev.laststudio.lib.items.util.SourcedComponent;
 import dev.laststudio.lib.items.component.BaseComponent;
@@ -13,6 +15,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.translation.GlobalTranslator;
+import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Material;
@@ -23,6 +26,7 @@ import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Container;
 import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -30,6 +34,7 @@ import org.bukkit.inventory.meta.*;
 import org.bukkit.potion.PotionEffect;
 import org.jetbrains.annotations.Nullable;
 
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.function.Consumer;
 
@@ -70,7 +75,10 @@ public class ItemStackRenderer {
             return render(baseModel.and(item), placeholders, locale, filter);
         }
 
-        ItemStack result = material.create(placeholders);
+        String textures = model.get(ItemComponents.TEXTURES);
+        ItemStack result = (textures != null && !textures.isBlank())
+                ? buildHead(textures, placeholders)
+                : material.create(placeholders);
         ItemMeta im = result.getItemMeta();
         if (im == null) {
             return result;
@@ -144,11 +152,15 @@ public class ItemStackRenderer {
                 component.setColors(modelData.colors());
                 im.setCustomModelDataComponent(component);
             } else {
-                im.setCustomModelData(modelData.floats().getFirst().intValue());
+                if (!modelData.floats().isEmpty()) {
+                    im.setCustomModelData(modelData.floats().getFirst().intValue());
+                }
             }
         }
-        if (model.getBool(ItemComponents.ENCHANTMENT_GLINT_OVERRIDE)) {
-            im.setEnchantmentGlintOverride(true);
+        Boolean glintOverride = model.get(ItemComponents.ENCHANTMENT_GLINT_OVERRIDE);
+        if (glintOverride != null) {
+            // false тоже значимо: убирает свечение у зачарованного предмета
+            im.setEnchantmentGlintOverride(glintOverride);
         }
         if (model.getBool(ItemComponents.HIDE_TOOLTIP)) {
             im.setHideTooltip(true);
@@ -247,6 +259,38 @@ public class ItemStackRenderer {
         }
         result.setAmount(model.get(ItemComponents.AMOUNT, IntHolder.ONE).getOrDefault(placeholders, 1));
         return result;
+    }
+
+    /** Скин головы из секции textures: base64, URL, ник (онлайн) или UUID. */
+    private static ItemStack buildHead(String raw, Placeholders placeholders) {
+        String value = placeholders.apply(raw).trim();
+        ItemStack head = new ItemStack(Material.PLAYER_HEAD);
+        head.editMeta(SkullMeta.class, skull -> {
+            if (value.startsWith("http://") || value.startsWith("https://")) {
+                String json = "{\"textures\":{\"SKIN\":{\"url\":\"" + value + "\"}}}";
+                String b64 = Base64.getEncoder().encodeToString(json.getBytes(StandardCharsets.UTF_8));
+                PlayerProfile profile = Bukkit.createProfile(UUID.nameUUIDFromBytes(b64.getBytes(StandardCharsets.UTF_8)));
+                profile.setProperty(new ProfileProperty("textures", b64));
+                skull.setPlayerProfile(profile);
+                return;
+            }
+            if (value.length() == 36) {
+                try {
+                    skull.setPlayerProfile(Bukkit.createProfile(UUID.fromString(value)));
+                    return;
+                } catch (IllegalArgumentException ignored) {
+                }
+            }
+            Player online = Bukkit.getPlayerExact(value);
+            if (online != null) {
+                skull.setPlayerProfile(online.getPlayerProfile());
+                return;
+            }
+            PlayerProfile profile = Bukkit.createProfile(UUID.nameUUIDFromBytes(value.getBytes(StandardCharsets.UTF_8)));
+            profile.setProperty(new ProfileProperty("textures", value));
+            skull.setPlayerProfile(profile);
+        });
+        return head;
     }
 
     private static Component render(Component c, @Nullable Locale l) {

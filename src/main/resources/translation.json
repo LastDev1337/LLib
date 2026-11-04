@@ -93,6 +93,42 @@
     "expected-2": {
       "ru_RU": "Ожидалось '{}' или '{}'",
       "en_US": "Expected '{}' or '{}'"
+    },
+    "not-found-item": {
+      "ru_RU": "Предмет с ID {} не найден!",
+      "en_US": "Item for ID {} not found!"
+    },
+    "action-unknown": {
+      "ru_RU": "Неизвестное действие: {}",
+      "en_US": "Unknown action: {}"
+    },
+    "action-parse-failed": {
+      "ru_RU": "Не удалось разобрать действие: {}",
+      "en_US": "Failed to parse action entry: {}"
+    },
+    "action-error": {
+      "ru_RU": "Ошибка при выполнении действия '{}'",
+      "en_US": "Error executing action '{}'"
+    },
+    "economy-disabled": {
+      "ru_RU": "Действие [{}] отключено: {} (или его провайдер экономики) не найден",
+      "en_US": "Action [{}] disabled: {} (or its economy provider) not found"
+    },
+    "economy-usage": {
+      "ru_RU": "[{}] ожидает: <give|take|set> <сумма>, получено: '{}'",
+      "en_US": "[{}] expected: <give|take|set> <amount>, got: '{}'"
+    },
+    "economy-bad-amount": {
+      "ru_RU": "[{}] неверная сумма: '{}'",
+      "en_US": "[{}] bad amount: '{}'"
+    },
+    "economy-negative-amount": {
+      "ru_RU": "[{}] сумма должна быть неотрицательным числом: '{}'",
+      "en_US": "[{}] amount must be a non-negative number: '{}'"
+    },
+    "economy-unknown-mode": {
+      "ru_RU": "[{}] неизвестный режим: '{}' (give|take|set)",
+      "en_US": "[{}] unknown mode: '{}' (give|take|set)"
     }
   }
 }

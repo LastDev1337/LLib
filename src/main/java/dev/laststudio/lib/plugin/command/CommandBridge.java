@@ -28,6 +28,7 @@ final class CommandBridge implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(CommandSender sender, org.bukkit.command.Command cmd, String label, String[] args) {
+        PermissionRequires.DENIED.remove();
         try {
             command.execute(sender, String.join(" ", args));
         } catch (CommandMsgError e) {
@@ -35,16 +36,27 @@ final class CommandBridge implements CommandExecutor, TabCompleter {
         } catch (Throwable t) {
             logger.log(Level.SEVERE, "Unhandled error executing /" + label, t);
             messages.send(sender, locale.get(sender, "internal-error"));
+        } finally {
+            // Если выполнение остановилось на проверке права — сообщаем один раз.
+            String denied = PermissionRequires.DENIED.get();
+            PermissionRequires.DENIED.remove();
+            if (denied != null) {
+                messages.send(sender, locale.get(sender, "no-permission"));
+            }
         }
         return true;
     }
 
     @Override
     public List<String> onTabComplete(CommandSender sender, org.bukkit.command.Command cmd, String label, String[] args) {
+        // Проверки прав при саджесте не должны слать сообщения — глушим их.
+        PermissionRequires.DENIED.remove();
         try {
             return command.suggest(sender, String.join(" ", args)).toList();
         } catch (Throwable t) {
             return List.of();
+        } finally {
+            PermissionRequires.DENIED.remove();
         }
     }
 }

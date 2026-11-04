@@ -12,10 +12,15 @@ import dev.laststudio.lib.api.LLibProvider;
 import dev.laststudio.lib.api.action.CommonActions;
 import dev.laststudio.lib.api.message.ColorType;
 import dev.laststudio.lib.plugin.action.ActionManager;
+import dev.laststudio.lib.plugin.action.economy.EconomyActions;
+import dev.laststudio.lib.plugin.scheduler.SchedulerManager;
 import dev.laststudio.lib.plugin.command.CommandManager;
+import dev.laststudio.lib.plugin.item.ItemConfigLoader;
 import dev.laststudio.lib.plugin.item.ItemDataManager;
+import dev.laststudio.lib.plugin.item.ItemRegistryManager;
 import dev.laststudio.lib.plugin.libs.LibraryBootstrap;
 import dev.laststudio.lib.plugin.locale.LocaleManager;
+import dev.laststudio.lib.plugin.message.GlobalText;
 import dev.laststudio.lib.plugin.message.MessageManager;
 import dev.laststudio.lib.plugin.particle.ParticleManager;
 import dev.laststudio.lib.plugin.version.VersionManager;
@@ -30,6 +35,8 @@ public final class LLibPlugin extends JavaPlugin {
     private CommandManager commands;
     private Command<CommandSender> reloadCommand;
     private ParticleRenderBootstrapper particles;
+    private ItemRegistryManager itemRegistries;
+    private ItemConfigLoader itemLoader;
 
     @Override
     public void onLoad() {
@@ -49,6 +56,7 @@ public final class LLibPlugin extends JavaPlugin {
         getLogger().info("Detected server version: " + version.current());
 
         ColorType colorType = loadColorType();
+        GlobalText.set(colorType);
         MessageManager messages = new MessageManager(colorType);
 
         locale = new LocaleManager(colorType);
@@ -60,11 +68,18 @@ public final class LLibPlugin extends JavaPlugin {
         particles.enable();
 
         ParticleManager particleManager = new ParticleManager();
-        ActionManager actionManager = new ActionManager(getLogger());
+        SchedulerManager scheduler = new SchedulerManager();
+        ActionManager actionManager = new ActionManager(getLogger(), scheduler, locale);
+        ItemDataManager itemManager = new ItemDataManager();
         CommonActions.register(actionManager, messages, particleManager);
+        EconomyActions.register(actionManager, getLogger(), locale);
+
+        itemRegistries = new ItemRegistryManager();
+        itemLoader = new ItemConfigLoader(this, itemRegistries);
+        itemLoader.load();
 
         LLibAPI.registerProvider(new LLibProviderImpl(
-                locale, messages, version, commands, new ItemDataManager(), particleManager, actionManager));
+                locale, messages, version, commands, itemManager, itemRegistries, particleManager, actionManager, scheduler));
 
         registerReloadCommand();
 
@@ -120,7 +135,11 @@ public final class LLibPlugin extends JavaPlugin {
                 .requires(commands.permission("llib.reload"))
                 .executor(sender -> {
                     long start = System.currentTimeMillis();
+                    ColorType colorType = loadColorType();
+                    GlobalText.set(colorType);
                     loadLocale();
+                    if (itemRegistries != null) itemRegistries.clearAll();
+                    if (itemLoader != null) itemLoader.load();
                     long took = System.currentTimeMillis() - start;
                     LLibProvider api = LLibAPI.get();
                     api.messages().send(sender, api.locale().get(sender, "reload", took));

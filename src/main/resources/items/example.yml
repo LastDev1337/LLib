@@ -1,0 +1,296 @@
+# ============================================================================
+#  Именованные предметы LLib (шаблоны). Версии сервера: 1.21 - 26.3
+# ============================================================================
+# Ссылка на предмет: <space>:<id>, например llib:fire_sword.
+# Использование:
+#   [give] llib:fire_sword
+#   material: llib:fire_sword        (предмет внутри другого предмета/секции)
+# Файл можно копировать: любой *.yml в папке items/ загружается как набор предметов.
+#
+# Заголовок файла:
+#   space: llib            - пространство имён (по умолчанию llib)
+#   items:                 - дальше идёт список <id>: <секции предмета>
+#
+# Во всех текстовых значениях работают плейсхолдеры {name} и %papi% (где это
+# указано как "поддерживает плейсхолдеры"). Предмет без плейсхолдеров в material
+# собирается один раз и кэшируется.
+#
+# ----------------------------------------------------------------------------
+#  ВСЕ СЕКЦИИ ПРЕДМЕТА
+# ----------------------------------------------------------------------------
+#
+#  material: <значение>                                  | String
+#      Что за предмет. Форматы:
+#        stone / minecraft:stone     - обычный материал
+#        llib:fire_sword             - другой именованный предмет (его секции
+#                                      подмешиваются, ваши секции важнее)
+#        basehead-<base64>           - голова с текстурой (значение textures из
+#                                      Minecraft-профиля)
+#        player-<ник|UUID>           - голова игрока (ник - только если он онлайн)
+#        {item}                      - плейсхолдер: материал вычисляется при выдаче
+#      Если не указан - dirt.
+#
+#  name: '<текст>'                                       | String
+#      Название. Поддерживает плейсхолдеры. Формат цвета зависит от color.type
+#      в config.yml: LEGACY (&c), HEX (&#FF0000), MINI_MESSAGE (<red>), GSON.
+#      Курсив убирается автоматически.
+#
+#  lore:                                                 | List<String>
+#    - '<строка>'
+#      Описание. Каждый элемент - строка; "\n" внутри элемента делит его на
+#      несколько строк. Поддерживает плейсхолдеры и <lang:...> (перевод на
+#      язык игрока).
+#
+#  amount: 1                                             | Integer / String
+#      Количество в стаке. Поддерживает плейсхолдеры: amount: '{count}'.
+#
+#  damage: 0                                             | Integer / String
+#      Полученный урон прочности (0 - новый предмет). Поддерживает плейсхолдеры.
+#
+#  enchantments:                                         | Map<Зачарование, Уровень>
+#    sharpness: 5
+#    minecraft:unbreaking: 3
+#      Зачарования. Можно без minecraft:. Уровень выше обычного разрешён.
+#
+#  stored_enchantments:                                  | Map<Зачарование, Уровень>
+#    mending: 1
+#      Зачарования ЗАЧАРОВАННОЙ КНИГИ (enchanted_book).
+#
+#  unbreakable: true                                     | Boolean
+#      Неразрушаемый предмет.
+#
+#  item_flags:                                           | List<ItemFlag>
+#    - HIDE_ATTRIBUTES
+#    - HIDE_ENCHANTS
+#    - HIDE_UNBREAKABLE
+#    - HIDE_DESTROYS
+#    - HIDE_PLACED_ON
+#    - HIDE_ADDITIONAL_TOOLTIP
+#    - HIDE_DYE
+#    - HIDE_ARMOR_TRIM
+#    - HIDE_STORED_ENCHANTS
+#      Скрыть части подсказки. Регистр не важен.
+#      Старые ключи тоже читаются: all_flags: true (все флаги),
+#      enchanted: true (свечение: vanishing_curse + HIDE_ENCHANTS).
+#
+#  attributes:                                           | List<Map>
+#    - attribute: attack_damage          # без префикса generic. (и с ним тоже)
+#      uuid: 'lastitems:my_damage'       # необязательно; ключ модификатора
+#      amount: 7.0
+#      operation: ADD_NUMBER             # ADD_NUMBER | ADD_SCALAR | MULTIPLY_SCALAR_1
+#      slot: mainhand                    # any | mainhand | offhand | hand | head |
+#                                        # chest | legs | feet | armor | body
+#      Модификаторы атрибутов. Атрибуты: attack_damage, attack_speed, armor,
+#      armor_toughness, max_health, movement_speed, knockback_resistance, luck,
+#      и все остальные из игры. Для одного атрибута с одним слотом ключ (uuid)
+#      должен быть разным, иначе записи склеятся; если не указан - создаётся сам.
+#
+#  color: '#RRGGBB'                                      | String
+#      Цвет. Форматы: RRGGBB, #RRGGBB, #AARRGGBB, либо имя (red, gold, aqua...).
+#      Применяется к: кожаной броне, зельям, картам, фейерверкам,
+#      ведру с тропической рыбой.
+#
+#  potion: <тип>                                         | String (PotionType)
+#      Базовое зелье: water, healing, strong_healing, long_swiftness, ...
+#      Работает на potion, splash_potion, lingering_potion, tipped_arrow.
+#
+#  potion_contents:                                      | Map<Эффект, "<тики> <уровень>">
+#    speed: '600 1'
+#    minecraft:regeneration: '200 0'
+#      Свои эффекты. Значение - длительность в тиках и уровень (0 = I).
+#      Работает на зельях, стрелах с эффектом и подозрительном рагу.
+#      Старое имя potion_effects читается.
+#
+#  model_data:                                           | см. ниже
+#      1.21 - 1.21.3:  model_data: 1001
+#      1.21.4 и новее (включая 26.x):
+#      model_data:
+#        floats: [1001.0]
+#        flags: [true]
+#        strings: ['alt']
+#        colors: ['#FF0000']
+#      Число и список [1, 2] тоже допустимы - превращаются в floats.
+#      На старых версиях (до 1.21.4) используется первое число из floats.
+#
+#  textures: '<значение>'                                | String
+#      Скин головы игрока (player_head). Значения: base64 из профиля,
+#      http(s)-ссылка на текстуру, ник онлайн-игрока или UUID.
+#      Поддерживает плейсхолдеры. Заменяет material на player_head.
+#
+#  container:                                            | Map<Слот, Предмет>
+#    13:
+#      material: diamond
+#      amount: 3
+#      Содержимое контейнеров (сундук, шалкер, бочка и т.д.). Каждый слот -
+#      полный предмет с любыми секциями (вложенность разрешена).
+#
+#  bundle_contents:                                      | List<Предмет>
+#    - material: gold_ingot
+#      amount: 8
+#      Содержимое мешка (bundle) любого цвета.
+#
+#  trim:                                                 | Map
+#    material: gold                      # материал отделки: gold, iron, amethyst...
+#    pattern: sentry                     # узор: sentry, vex, wild, coast...
+#      Отделка брони (любая броня и черепаха-шлем).
+#
+#  hide_tooltip: true                                    | Boolean
+#      Полностью скрыть подсказку предмета (название и описание не видны).
+#
+#  max_stack_size: 16                                    | Integer (1 - 99)
+#      Максимальный размер стака.
+#
+#  enchantment_glint_override: true                      | Boolean
+#      true  - предмет всегда светится, как зачарованный;
+#      false - предмет не светится, даже если зачарован.
+#      Не указано - обычное поведение.
+#
+#  --- Только 1.21.3 и новее (включая 26.x) ---
+#
+#  glider: true                                          | Boolean
+#      Предмет раскрывается как элитры (можно планировать).
+#
+#  item_model: 'namespace:model'                         | NamespacedKey
+#      Подмена модели предмета из ресурспака.
+#
+#  tooltip_style: 'namespace:style'                      | NamespacedKey
+#      Свой фон/рамка подсказки из ресурспака.
+#
+# На версиях ниже 1.21.3 секции glider / item_model / tooltip_style
+# молча пропускаются (остальное работает).
+#
+# ----------------------------------------------------------------------------
+#  Выдача: [give] llib:<id> [количество]    - см. раздел "give" в документации
+#  Приоритет: секции, указанные в самом предмете, важнее секций из material: llib:...
+#  Списки (lore, enchantments, attributes, item_flags) при ссылке на другой
+#  предмет объединяются, а не заменяются.
+# ============================================================================
+
+space: llib
+
+items:
+  fire_sword:
+    material: netherite_sword
+    amount: 1
+    name: '&cОгненный клинок'
+    lore:
+      - '&7Награда за 5 уровень'
+      - '&8Боевой пропуск'
+    enchantments:
+      sharpness: 5
+      unbreaking: 3
+    unbreakable: true
+    item_flags:
+      - HIDE_ATTRIBUTES
+
+  upgrade_core:
+    material: nether_star
+    name: '&eЯдро улучшения'
+    enchantment_glint_override: true
+    max_stack_size: 16
+
+  fire_sword_gift:
+    # Ссылка на другой именованный предмет через material:
+    material: llib:fire_sword
+    name: '&cПодарочный клинок'
+
+  custom_head:
+    material: player_head
+    name: '&dГолова воина'
+    # textures: base64-значение, URL (http/https), ник (онлайн) или UUID.
+    textures: 'http://textures.minecraft.net/texture/PLACEHOLDER'
+
+  # ---------------------------------------------------------------------------
+  #  Примеры остальных секций (раскомментируйте нужное)
+  # ---------------------------------------------------------------------------
+  #
+  # --- Атрибуты ---
+  # heavy_axe:
+  #   material: netherite_axe
+  #   name: '&6Тяжёлый топор'
+  #   attributes:
+  #     - attribute: attack_damage
+  #       uuid: 'lastitems:heavy_axe_damage'
+  #       amount: 12.0
+  #       operation: ADD_NUMBER
+  #       slot: mainhand
+  #     - attribute: movement_speed
+  #       amount: -0.1
+  #       operation: MULTIPLY_SCALAR_1
+  #       slot: mainhand
+  #   item_flags:
+  #     - HIDE_ATTRIBUTES
+  #
+  # --- Зачарованная книга ---
+  # mending_book:
+  #   material: enchanted_book
+  #   name: '&bКнига починки'
+  #   stored_enchantments:
+  #     mending: 1
+  #     unbreaking: 3
+  #
+  # --- Зелья и стрелы ---
+  # speed_potion:
+  #   material: potion
+  #   name: '&bЗелье скорости'
+  #   color: '#55FFFF'
+  #   potion: strong_swiftness
+  #   potion_contents:
+  #     speed: '1200 1'
+  #     jump_boost: '600 0'
+  #
+  # --- Кожаная броня с цветом и отделкой ---
+  # starter_helmet:
+  #   material: diamond_helmet
+  #   name: '&bШлем новичка'
+  #   color: 6699ff
+  #   trim:
+  #     material: gold
+  #     pattern: sentry
+  #
+  # --- Кастомная модель (ресурспак) ---
+  # magic_wand:
+  #   material: stick
+  #   name: '&5Волшебная палочка'
+  #   model_data:                      # 1.21.4+ (для 1.21 - 1.21.3: model_data: 1001)
+  #     floats: [1001.0]
+  #     strings: ['wand']
+  #   item_model: 'mypack:magic_wand'  # 1.21.3+
+  #   tooltip_style: 'mypack:epic'     # 1.21.3+
+  #
+  # --- Планер (1.21.3+) ---
+  # glider_hat:
+  #   material: leather_helmet
+  #   name: '&fПланёр'
+  #   glider: true
+  #
+  # --- Скрытая подсказка ---
+  # secret_token:
+  #   material: paper
+  #   hide_tooltip: true
+  #
+  # --- Мешочек монет ---
+  # coin_bundle:
+  #   material: bundle
+  #   name: '&6Мешочек монет'
+  #   bundle_contents:
+  #     - material: gold_ingot
+  #       amount: 8
+  #
+  # --- Лутбокс ---
+  # loot_box:
+  #   material: chest
+  #   name: '&6Лутбокс'
+  #   container:
+  #     13:
+  #       material: diamond
+  #       amount: 3
+  #     14:
+  #       material: llib:fire_sword
+  #
+  # --- Плейсхолдеры ---
+  # reward:
+  #   material: '{material}'
+  #   amount: '{amount}'
+  #   name: '&aНаграда для {player}'
+  #   damage: '{damage}'
