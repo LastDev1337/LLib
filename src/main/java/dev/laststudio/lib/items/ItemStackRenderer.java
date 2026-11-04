@@ -40,8 +40,6 @@ import java.util.function.Consumer;
 
 public class ItemStackRenderer {
 
-    // Inert marker modifier used to make HIDE_ATTRIBUTES actually hide an item's *default*
-    // attribute lines (Paper#10655). LUCK at amount 0 changes nothing about the item.
     private static final Attribute HIDE_ATTRIBUTES_MARKER = resolveAttribute("luck");
     private static final NamespacedKey HIDE_ATTRIBUTES_KEY = new NamespacedKey("lastitems", "hide_attributes");
 
@@ -69,7 +67,6 @@ public class ItemStackRenderer {
         var baseModel = material.fromGlobalRegistry(placeholders);
         if (baseModel != null) {
             if (!baseModel.has(ItemComponents.MATERIAL)) {
-                //фикс рекурсии
                 baseModel = baseModel.withMaterial("dirt");
             }
             return render(baseModel.and(item), placeholders, locale, filter);
@@ -114,7 +111,6 @@ public class ItemStackRenderer {
         }
         var basePotion = model.get(ItemComponents.BASE_POTION);
         if (basePotion != null && im instanceof PotionMeta pm) {
-            //todo Arrow
             basePotion.apply(pm);
         }
 
@@ -159,7 +155,6 @@ public class ItemStackRenderer {
         }
         Boolean glintOverride = model.get(ItemComponents.ENCHANTMENT_GLINT_OVERRIDE);
         if (glintOverride != null) {
-            // false тоже значимо: убирает свечение у зачарованного предмета
             im.setEnchantmentGlintOverride(glintOverride);
         }
         if (model.getBool(ItemComponents.HIDE_TOOLTIP)) {
@@ -261,7 +256,6 @@ public class ItemStackRenderer {
         return result;
     }
 
-    /** Скин головы из секции textures: base64, URL, ник (онлайн) или UUID. */
     private static ItemStack buildHead(String raw, Placeholders placeholders) {
         String value = placeholders.apply(raw).trim();
         ItemStack head = new ItemStack(Material.PLAYER_HEAD);
@@ -304,7 +298,6 @@ public class ItemStackRenderer {
         return attr != null ? attr : Registry.ATTRIBUTE.get(NamespacedKey.minecraft("generic." + key));
     }
 
-    /** Item types that carry default vanilla attribute lines, so HIDE_ATTRIBUTES needs the marker. */
     private static boolean hasDefaultAttributes(Material material) {
         String n = material.name();
         return n.endsWith("_SWORD") || n.endsWith("_AXE") || n.endsWith("_PICKAXE")
@@ -353,7 +346,6 @@ public class ItemStackRenderer {
             }
             return this;
         }
-
 
         public RenderFilter setSkip(@Nullable BaseComponent<?> c) {
             if (c == null) return this;

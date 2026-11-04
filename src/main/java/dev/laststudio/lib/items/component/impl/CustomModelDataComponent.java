@@ -17,7 +17,6 @@ public record CustomModelDataComponent(List<Float> floats, List<Boolean> flags, 
             ColorHolder.CODEC.map(ColorHolder::toBukkit, ColorHolder::fromBukkit).listOf()
                     .fieldOf("colors",CustomModelDataComponent::colors, List.of())
     ).whenPrimitive(YamlCodec.FLOAT.map(
-            //Deprecated 1.21.5
             i -> new CustomModelDataComponent(List.of(i), List.of(), List.of(), List.of()),
             c -> c.floats.isEmpty() ? 0f : c.floats.get(0)
     ));

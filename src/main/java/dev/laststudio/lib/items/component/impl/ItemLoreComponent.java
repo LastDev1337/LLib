@@ -47,7 +47,6 @@ public class ItemLoreComponent implements MergeableComponent<ItemLoreComponent> 
         return input.contains("{") || input.contains("%") || input.contains("<lang");
     }
 
-
     @Override
     public ItemLoreComponent and(ItemLoreComponent t1) {
         List<ComponentLike> list = new ArrayList<>(lore);

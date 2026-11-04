@@ -70,21 +70,6 @@ public final class CommonActions {
         actions.register("take", (target, args) -> take(target, args));
     }
 
-    /**
-     * [give] <material|space:id> [amount] [{enchant:level;...}] - выдать игроку-цели.
-     * Либо именованная форма — полный LLib-предмет (те же секции, что у ConfigurableItems):
-     *   give:
-     *     player: 'Ник'          # необязательно, по умолчанию - цель
-     *     material: DIAMOND      # либо space:id из реестра (например llib:fire_sword)
-     *     amount: 1
-     *     name: '&aАлмаз'
-     *     lore: ['&7строка']
-     *     enchantments: { sharpness: 5 }
-     *     model_data: { floats: [1] }
-     *     unbreakable: true
-     *     item_flags: [ HIDE_ATTRIBUTES ]
-     *     textures: 'http://textures.minecraft.net/texture/<hash>'
-     */
     private static void give(CommandSender target, ActionArgs args, MessageService messages) {
         Placeholders placeholders = placeholders(messages, target);
         if (args.isNamed()) {

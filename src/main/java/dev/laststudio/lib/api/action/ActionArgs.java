@@ -16,7 +16,6 @@ public final class ActionArgs {
         this.resolver = resolver;
     }
 
-    /** Копия аргументов, в которой raw() и getString() прогоняются через resolver. */
     public ActionArgs withResolver(UnaryOperator<String> resolver) {
         return new ActionArgs(raw, named, resolver);
     }

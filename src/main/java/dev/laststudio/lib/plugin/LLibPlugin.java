@@ -86,7 +86,7 @@ public final class LLibPlugin extends JavaPlugin {
         Metrics metrics = new Metrics(this, 33292);
 
         metrics.addCustomChart(
-                new SimplePie("chart_id", () -> "My value")
+                new SimplePie("chart_id", () -> "LLib")
         );
 
         getLogger().info("enabling successfully");

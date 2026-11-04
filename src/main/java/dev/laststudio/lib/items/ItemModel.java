@@ -103,7 +103,6 @@ public class ItemModel {
         return get(type) != null;
     }
 
-
     public ItemStack build() {
         return build(Placeholders.NONE, null);
     }

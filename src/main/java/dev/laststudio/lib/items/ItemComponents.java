@@ -50,10 +50,8 @@ public class ItemComponents {
     public static final BaseComponent<Boolean> HIDE_TOOLTIP = register("hide_tooltip", YamlCodec.BOOL);
     public static final BaseComponent<Integer> MAX_STACK_SIZE = register("max_stack_size", YamlCodec.INT);
     public static final BaseComponent<Boolean> ENCHANTMENT_GLINT_OVERRIDE = register("enchantment_glint_override", YamlCodec.BOOL);
-    // Удобная секция скина головы: base64-значение, URL, ник (онлайн) или UUID.
     public static final BaseComponent<String> TEXTURES = register("textures", YamlCodec.STRING);
 
-    // 1.21.3+ only — null on older servers, callers must null-check.
     @Nullable
     public static final BaseComponent<Boolean> GLIDER = register("glider", YamlCodec.BOOL, ItemVersion.is1_21_3orNewer());
     @Nullable
@@ -88,9 +86,7 @@ public class ItemComponents {
 
     static {
         var builder = PipelineYamlCodecBuilder.of(ComponentsHolder::new);
-        //noinspection rawtypes
         for (BaseComponent component : COMPONENTS) {
-            //noinspection unchecked
             builder.field(component.codec(), component.name(),
                     v -> v.get(component),
                     (v, c) -> v.set(component, c)
@@ -156,11 +152,8 @@ public class ItemComponents {
             result.set(ItemComponents.MATERIAL, new MaterialComponent(material));
         }
         if (ItemVersion.is1_21_4orNewer()) {
-            //noinspection all
             var v = im.getCustomModelDataComponent();
-            //noinspection all
             if (v != null) {
-                //noinspection all
                 result.set(ItemComponents.MODEL_DATA, new CustomModelDataComponent(
                         v.getFloats(),
                         v.getFlags(),

@@ -6,10 +6,6 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
-/**
- * Глобальный текстовый рендер, управляемый секцией {@code color.type} из config.yml.
- * Используется и сообщениями, и предметами (name/lore), чтобы поведение совпадало.
- */
 public final class GlobalText {
 
     private static final LegacyComponentSerializer LEGACY = LegacyComponentSerializer.legacyAmpersand();

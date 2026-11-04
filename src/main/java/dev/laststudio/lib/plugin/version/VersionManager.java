@@ -14,7 +14,6 @@ public final class VersionManager implements VersionService {
         String raw = Bukkit.getBukkitVersion();
         int dash = raw.indexOf('-');
         String base = dash >= 0 ? raw.substring(0, dash) : raw;
-        // "26.2.build.7" -> "26.2": берём только ведущие числовые части
         this.current = base.replaceAll("^((?:\\d+\\.)*\\d+).*$", "$1");
     }
 
@@ -38,11 +37,6 @@ public final class VersionManager implements VersionService {
         return compare(current, MIN_SUPPORTED) >= 0 && compare(current, MAX_SUPPORTED) <= 0;
     }
 
-    /**
-     * Сравнение версий Minecraft. Версии 1.x и новые 26.x (год.выпуск) лежат на одной шкале:
-     * у "1.21.4" отбрасываем ведущую "1", получаем 21.4, а "26.1" остаётся 26.1.
-     * Раньше "26.1" сравнивалось с "1.26.2" по первой цифре (26 > 1) и считалось неподдерживаемым.
-     */
     static int compare(String a, String b) {
         String[] pa = normalize(a);
         String[] pb = normalize(b);

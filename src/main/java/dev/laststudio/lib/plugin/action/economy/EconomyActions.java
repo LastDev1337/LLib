@@ -11,18 +11,11 @@ import java.util.Locale;
 import java.util.function.Supplier;
 import java.util.logging.Logger;
 
-/**
- * [vault] give|take|set <сумма>      /      vault: { mode: give, amount: 100 }
- * [playerpoints] give|take|set <сумма>
- * Нет плагина экономики - действие тихо пропускается, одно предупреждение в лог.
- * take при нехватке денег не выполняется вообще.
- */
 public final class EconomyActions {
 
     private EconomyActions() {
     }
 
-    // лямбды, а не ссылки на методы: класс хука должен грузиться только при реальном вызове
     public static void register(ActionService actions, Logger logger, LocaleService locale) {
         register(actions, logger, locale, "vault", "Vault", () -> VaultHook.create());
         register(actions, logger, locale, "playerpoints", "PlayerPoints", () -> PlayerPointsHook.create());
@@ -77,7 +70,6 @@ public final class EconomyActions {
         }
     }
 
-    /** Ленивый поиск: экономика может зарегистрироваться уже после старта LLib. */
     private static final class EconomyHolder {
         private final Logger logger;
         private final LocaleService locale;

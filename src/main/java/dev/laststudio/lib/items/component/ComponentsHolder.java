@@ -30,7 +30,6 @@ public class ComponentsHolder {
     @Nullable
     public <T> T get(@Nullable BaseComponent<T> type) {
         if (type == null) return null;
-        //noinspection unchecked
         return (T) components[type.id()];
     }
 
@@ -39,7 +38,6 @@ public class ComponentsHolder {
     public <T> T get(@Nullable BaseComponent<T> type, T def) {
         if (type == null) return def;
         var o = components[type.id()];
-        //noinspection unchecked
         return o == null ? def : (T) o;
     }
 
@@ -74,7 +72,6 @@ public class ComponentsHolder {
                 if (current == null) {
                     result[i] = o;
                 } else if (o instanceof MergeableComponent<?>) {
-                    //noinspection rawtypes, unchecked
                     result[i] = merge((MergeableComponent) current, (MergeableComponent) o);
                 }
             }

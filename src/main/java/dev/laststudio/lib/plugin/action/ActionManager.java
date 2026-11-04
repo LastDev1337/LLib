@@ -42,7 +42,6 @@ public final class ActionManager implements ActionService {
         this.locale = locale;
     }
 
-    /** Текст для консоли на языке консоли (default-locale из translation.json). */
     private String text(String key, Object... args) {
         return locale.get(locale.resolve(Bukkit.getConsoleSender()), key, args);
     }
@@ -161,7 +160,7 @@ public final class ActionManager implements ActionService {
             if (named == null) {
                 return null;
             }
-            double chance = Math.max(0.0, Math.min(100.0, named.get("chance").asDouble(100.0)));
+            double chance = Math.clamp(named.get("chance").asDouble(100.0), 0.0, 100.0);
             return new ParsedAction(name, ActionArgs.named(named), chance);
         }
         return null;

@@ -54,8 +54,6 @@ public final class CommandManager implements CommandService {
 
     @Override
     public Requires<CommandSender> permission(String node) {
-        // Только проверка. Сообщение отправляется один раз при выполнении
-        // (CommandBridge#onCommand), чтобы Tab-комплит не спамил no-permission.
         return new PermissionRequires(node);
     }
 
@@ -106,7 +104,6 @@ public final class CommandManager implements CommandService {
         try {
             Bukkit.getServer().getClass().getMethod("syncCommands").invoke(Bukkit.getServer());
         } catch (ReflectiveOperationException ignored) {
-            // nope
         }
     }
 

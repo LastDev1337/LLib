@@ -37,7 +37,6 @@ final class CommandBridge implements CommandExecutor, TabCompleter {
             logger.log(Level.SEVERE, "Unhandled error executing /" + label, t);
             messages.send(sender, locale.get(sender, "internal-error"));
         } finally {
-            // Если выполнение остановилось на проверке права — сообщаем один раз.
             String denied = PermissionRequires.DENIED.get();
             PermissionRequires.DENIED.remove();
             if (denied != null) {
@@ -49,7 +48,6 @@ final class CommandBridge implements CommandExecutor, TabCompleter {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, org.bukkit.command.Command cmd, String label, String[] args) {
-        // Проверки прав при саджесте не должны слать сообщения — глушим их.
         PermissionRequires.DENIED.remove();
         try {
             return command.suggest(sender, String.join(" ", args)).toList();

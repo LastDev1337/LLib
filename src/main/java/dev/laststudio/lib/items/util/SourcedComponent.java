@@ -10,10 +10,6 @@ import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Текст, который помнит свой исходник, чтобы name/lore предмета пересобирались с актуальными
- * плейсхолдерами при каждом build. Рендер идёт через {@link GlobalText} — с учётом color.type.
- */
 public final class SourcedComponent implements ComponentLike {
 
     public static final YamlCodec<ComponentLike> CODEC = YamlCodec.STRING.map(

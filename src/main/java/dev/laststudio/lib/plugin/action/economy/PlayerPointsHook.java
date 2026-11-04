@@ -4,7 +4,6 @@ import org.black_ixx.playerpoints.PlayerPoints;
 import org.black_ixx.playerpoints.PlayerPointsAPI;
 import org.bukkit.OfflinePlayer;
 
-/** Класс грузится только если PlayerPoints установлен. PlayerPoints хранит целые числа. */
 final class PlayerPointsHook implements EconomyHook {
 
     private final PlayerPointsAPI api;

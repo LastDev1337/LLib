@@ -10,18 +10,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.util.logging.Level;
 
-/**
- * Загружает именованные предметы из {@code plugins/LLib/items/*.yml}.
- *
- * <pre>
- * space: llib            # необязательно, по умолчанию llib
- * items:
- *   fire_sword:
- *     material: netherite_sword
- *     name: '&cОгненный клинок'
- *     enchantments: { sharpness: 5 }
- * </pre>
- */
 public final class ItemConfigLoader {
 
     private final JavaPlugin plugin;

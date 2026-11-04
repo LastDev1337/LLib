@@ -5,7 +5,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
-/** Класс грузится только если Vault установлен, иначе был бы NoClassDefFoundError. */
 final class VaultHook implements EconomyHook {
 
     private final Economy economy;
@@ -34,7 +33,6 @@ final class VaultHook implements EconomyHook {
         economy.withdrawPlayer(player, amount);
     }
 
-    /** У Vault нет операции set: считаем разницу с текущим балансом (не атомарно). */
     @Override
     public void set(OfflinePlayer player, double amount) {
         double delta = amount - economy.getBalance(player);

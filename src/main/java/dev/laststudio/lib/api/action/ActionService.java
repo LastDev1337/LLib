@@ -16,13 +16,6 @@ public interface ActionService {
 
     void execute(CommandSender target, List<ParsedAction> actions);
 
-    /**
-     * Выполнить действия для нескольких целей. Порядок: бросок шанса (один на действие) ->
-     * каждая цель получает действие в своём потоке (игрок - в потоке игрока, остальные - в глобальном).
-     * Ошибка в одном действии пишется в лог и не мешает остальным.
-     *
-     * @param placeholders может быть null
-     */
     void execute(Plugin owner, Collection<? extends CommandSender> targets, List<ParsedAction> actions, ActionPlaceholders placeholders);
 
     boolean isRegistered(String name);

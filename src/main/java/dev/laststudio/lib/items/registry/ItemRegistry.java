@@ -31,13 +31,11 @@ public class ItemRegistry<T extends ItemModelHolder> implements Iterable<T> {
 
     public ItemRegistry(String space) {
         this.space = space;
-        //noinspection deprecation
         key = new NamespacedKey(space, "type");
     }
 
     public ItemRegistry(String space, Map<String, T> m) {
         this.space = space;
-        //noinspection deprecation
         key = new NamespacedKey(space, "type");
         m.forEach(this::register);
     }
@@ -144,4 +142,3 @@ public class ItemRegistry<T extends ItemModelHolder> implements Iterable<T> {
         return Collections.unmodifiableMap(itemToId);
     }
 }
-

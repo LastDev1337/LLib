@@ -95,7 +95,6 @@ public record AttributesComponent(List<Entry> modifiers) implements MergeableCom
             private static final YamlCodec<EquipmentSlotGroup> SLOT_CODEC =
                     YamlCodec.STRING.map(AttributeData::parseSlot, EquipmentSlotGroup::toString);
 
-            // legacy field name "uuid" is still read; missing -> a fresh key per entry
             public static final YamlCodec<AttributeData> CODEC = RecordYamlCodecBuilder.mapOf(
                     AttributeData::new,
                     KEY_CODEC.fieldOf("uuid", AttributeData::key, (NamespacedKey) null),

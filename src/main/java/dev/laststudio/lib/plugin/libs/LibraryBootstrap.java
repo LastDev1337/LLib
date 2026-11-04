@@ -26,7 +26,6 @@ public final class LibraryBootstrap {
 
     private static final Library[] LIBRARIES = {
             new Library("dev.by1337.cmd.Command", "dev.by1337.cmd", "BCmd", "1.4"),
-            // транзитивные зависимости перечислены явно: runtime-загрузчик Maven-зависимости сам не подтягивает
             new Library("dev.by1337.yaml.YamlMap", "dev.by1337.yaml", "common", "1.6"),
             new Library("dev.by1337.yaml.BukkitCodecs", "dev.by1337.yaml", "byaml-bukkit", "1.6"),
             new Library("dev.by1337.particle.particle.ParticleSource", "dev.by1337.particle", "render", "1.8"),

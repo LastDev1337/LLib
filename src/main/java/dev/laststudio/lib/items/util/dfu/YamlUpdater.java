@@ -21,7 +21,6 @@ public class YamlUpdater {
         rename(map, "display_name", "name");
         rename(map, "potion_effects", "potion_contents");
 
-        // model_data: [1, 2, 3]  ->  model_data: { floats: [1, 2, 3] }
         if (map.get("model_data").getRaw() instanceof List<?> floats) {
             YamlMap wrapped = new YamlMap();
             wrapped.set("floats", floats);
@@ -67,7 +66,6 @@ public class YamlUpdater {
         }
     }
 
-    // <enchantment>;<lvl> -> map{enchantment: lvl}
     private static Object enchantmentsUpdater(YamlValue value){
         if (value.isMap()) return null;
         DataResult<List<String>> legacy = YamlCodec.STRINGS.decode(value);
@@ -87,7 +85,6 @@ public class YamlUpdater {
         }
         return result.getRaw();
     }
-
 
     public static Object deepCopy(Object object) {
         if (object instanceof Map) {

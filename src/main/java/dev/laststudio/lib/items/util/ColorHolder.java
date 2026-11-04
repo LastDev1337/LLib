@@ -120,7 +120,6 @@ public class ColorHolder {
         return String.format("#%02X%02X%02X%02X", alpha(), red(), green(), blue());
     }
 
-
     public static @NotNull ColorHolder fromARGB(int alpha, int red, int green, int blue) throws IllegalArgumentException {
         return new ColorHolder(alpha, red, green, blue);
     }

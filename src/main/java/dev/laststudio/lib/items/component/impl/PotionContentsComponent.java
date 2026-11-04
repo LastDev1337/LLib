@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 public record PotionContentsComponent(
         List<PotionEffect> contents) implements MergeableComponent<PotionContentsComponent> {
 
-
     public static final YamlCodec<PotionContentsComponent> CODEC =
             Codecs.POTION_EFFECT_LIST_CODEC.map(
                     PotionContentsComponent::new,

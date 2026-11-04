@@ -48,7 +48,6 @@ public class PotionContentsUpdater {
         return raw;
     }
 
-    // speed;20;0 -> map{type: "duration amplifier"}
     private static YamlMap potionContentsUpdater(YamlValue value) {
         if (value.isMap()) return null;
         DataResult<List<String>> legacy = YamlCodec.STRINGS.decode(value);
